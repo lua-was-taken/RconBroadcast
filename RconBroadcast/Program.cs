@@ -1,6 +1,8 @@
 ﻿using RconBroadcast;
 using RconSharp;
 
+var a = IntervalParser.ParseInterval("20m");
+
 var config = await ConfigManager.LoadConfigAsync();
 if(config.Servers.Length == 0) {
     ServerConfig defaultServer = new() {

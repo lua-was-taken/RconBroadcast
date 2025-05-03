@@ -29,13 +29,17 @@ namespace RconBroadcast {
                 return TimeSpan.Zero;
             }
 
-            if(TimeSpan.TryParse(interval.Replace("m", ":00").Replace("h", ":00:00"), out TimeSpan result)) {
-                return result;
-            }
-
-            return interval.EndsWith('s') && int.TryParse(interval[..^1], out int seconds)
+            if(interval.Contains('m')) {
+                interval = "00:" + interval.Replace("m", ":00");
+            } else if(interval.Contains('h')) {
+                interval = interval.Replace("h", ":00:00");
+            } else {
+                return interval.EndsWith('s') && int.TryParse(interval[..^1], out int seconds)
                 ? TimeSpan.FromSeconds(seconds)
                 : throw new FormatException($"Invalid interval format: {interval}");
+            }
+
+            return TimeSpan.Parse(interval);
         }
     }
 
